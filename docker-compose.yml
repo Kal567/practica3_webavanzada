@@ -1,0 +1,34 @@
+version: '3'
+services:
+  p3backend:
+    container_name: p3compose
+    image: "p3backend"
+    build: backend/
+    ports:
+      - "8080:8080"
+    depends_on:
+      - dbp3
+    networks:
+      - p3webavan
+  p3frontend:
+    image: "p3frontend"
+    build: frontend/
+    ports:
+      - "8081:8081"
+    depends_on:
+      - p3backend
+    networks:
+      - p3webavan
+  dbp3:
+    image: buildo/h2database:latest
+    ports:
+      - "8082:8082"
+    volumes:
+      - volumen:/tmp/
+    networks:
+      - p3webavan
+volumes:
+  volumen:
+
+networks:
+  p3webavan:
